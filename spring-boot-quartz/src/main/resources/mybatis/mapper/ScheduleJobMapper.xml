@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="commercial.base.db.mysql.commercial.quartz.mapper.ScheduleJobMapper">
+    <resultMap id="BaseResultMap"
+               type="commercial.base.db.mysql.commercial.entity.ScheduleJob">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="job_name" property="jobName" jdbcType="VARCHAR" />
+        <result column="cron_expression" property="cronExpression" jdbcType="VARCHAR" />
+        <result column="bean_name" property="beanName" jdbcType="VARCHAR" />
+        <result column="method_name" property="methodName" jdbcType="VARCHAR" />
+        <result column="status" property="status" jdbcType="INTEGER" />
+        <result column="creator_id" property="creatorId" jdbcType="INTEGER" />
+        <result column="creator_name" property="creatorName" jdbcType="VARCHAR" />
+        <result column="delete_flag" property="deleteFlag" jdbcType="BIT" />
+        <result column="created_time" property="createdTime" jdbcType="TIMESTAMP" />
+        <result column="updated_time" property="updatedTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+		id, job_name, cron_expression, bean_name, method_name, status,creator_id,creator_name,delete_flag
+		,created_time
+		,updated_time
+	</sql>
+
+    <select id="list" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List" />
+        from schedule_job where delete_flag = false and status = 1
+    </select>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from schedule_job
+        where id = #{id} and delete_flag = false
+    </select>
+    <insert id="save" parameterType="commercial.base.db.mysql.commercial.entity.ScheduleJob">
+        INSERT INTO schedule_job (bean_name,job_name, method_name, cron_expression, status, creator_id,
+        creator_name, delete_flag,created_time,updated_time) VALUES
+		( #{beanName},#{jobName},#{methodName}, #{cronExpression},#{status},#{creatorId},#{creatorName},0,NOW(), NOW())
+    </insert>
+
+    <update id="updateById" parameterType="commercial.base.db.mysql.commercial.entity.ScheduleJob">
+        update schedule_job
+        <set>
+            <if test="jobName != null">
+                job_name = #{jobName,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="methodName != null">
+                method_name = #{methodName,jdbcType=VARCHAR},
+            </if>
+            <if test="cronExpression != null">
+                cron_expression = #{cronExpression,jdbcType=VARCHAR},
+            </if>
+            <if test="creatorId != null">
+                creator_id = #{creatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="creatorName != null">
+                creator_name = #{creatorName,jdbcType=VARCHAR},
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag = #{deleteFlag,jdbcType=BIT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+       update schedule_job set delete_flag = true  where id = #{id}
+    </delete>
+
+    <update id="updateStatusBatch" parameterType="java.lang.Integer">
+        update schedule_job set status = #{status} where delete_flag = false
+    </update>
+    <select id="selectByIdAndFlag" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from schedule_job
+        where id = #{id}
+    </select>
+</mapper>
