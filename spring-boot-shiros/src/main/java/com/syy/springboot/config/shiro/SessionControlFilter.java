@@ -117,11 +117,11 @@ public class SessionControlFilter extends AccessControlFilter {
             }
             saveRequest(request);
 
-            Map<String, String> resultMap = new HashMap<String, String>();
+            Map<String, String> resultMap = new HashMap<>(16);
             //判断是不是Ajax请求
             if ("XMLHttpRequest".equalsIgnoreCase(((HttpServletRequest) request).getHeader("X-Requested-With"))) {
                 resultMap.put("user_status", "300");
-                resultMap.put("message", "您已经在其他地方登录，请重新登录！");
+                resultMap.put("message", "You are already logged in elsewhere, please log in again！");
                 //输出json串
                 out(response, resultMap);
             } else {
@@ -142,7 +142,7 @@ public class SessionControlFilter extends AccessControlFilter {
             out.flush();
             out.close();
         } catch (Exception e) {
-            System.err.println("KickoutSessionFilter.class 输出JSON异常，可以忽略。");
+            System.err.println("KickoutSessionFilter.class output JSON exception, can be ignored。");
         }
     }
 
