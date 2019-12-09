@@ -1,6 +1,6 @@
-package com.syy.springboot.system.handler;
-import com.syy.springboot.system.enums.ResultStatusCode;
-import com.syy.springboot.system.vo.Result;
+package com.syy.springboot.config;
+import com.syy.springboot.enums.ResultStatusCode;
+import com.syy.springboot.result.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.http.HttpStatus;

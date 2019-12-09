@@ -1,7 +1,8 @@
-package com.syy.springboot.system.config;
+package com.syy.springboot.config;
 
 
-import com.syy.springboot.system.shiro.*;
+import com.syy.springboot.config.shiro.*;
+import com.syy.springboot.enums.LoginType;
 import org.apache.shiro.authc.pam.AtLeastOneSuccessfulStrategy;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -20,10 +21,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.servlet.Filter;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @Configuration
@@ -35,6 +33,9 @@ public class ShiroConfig {
     @Value("${spring.redis.port}")
     private int redisPort;
 
+    @Value("${spring.redis.password}")
+    private String redisPassword;
+
     @Bean
     public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
@@ -43,15 +44,15 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setLoginUrl("/common/unauth");
         // 登录成功后要跳转的链接
         //shiroFilterFactoryBean.setSuccessUrl("/auth/index");
-        // 未授权界面;
+        // 未授权界面
         shiroFilterFactoryBean.setUnauthorizedUrl("common/unauth");
         //自定义拦截器
-        Map<String, Filter> filtersMap = new LinkedHashMap<String, Filter>();
+        Map<String, Filter> filtersMap = new LinkedHashMap<>();
         //限制同一帐号同时在线的个数。
         filtersMap.put("kickout", kickoutSessionControlFilter());
         shiroFilterFactoryBean.setFilters(filtersMap);
         // 权限控制map.
-        Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
+        Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         // 公共请求
         filterChainDefinitionMap.put("/common/**", "anon");
         // 静态资源
@@ -210,6 +211,9 @@ public class ShiroConfig {
         RedisManager redisManager = new RedisManager();
         redisManager.setHost(redisHost);
         redisManager.setPort(redisPort);
+        if (Objects.nonNull(redisPassword)) {
+            redisManager.setPassword(redisPassword);
+        }
         //设置过期时间
         redisManager.setTimeout(1800);
         return redisManager;

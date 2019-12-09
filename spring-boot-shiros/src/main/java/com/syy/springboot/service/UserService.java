@@ -1,17 +1,19 @@
 package com.syy.springboot.service;
 
 import com.syy.springboot.model.User;
-import com.syy.springboot.system.vo.Grid;
+import com.syy.springboot.result.Grid;
 
 
+/**
+ * @author ASUS
+ */
 public interface UserService {
 
-    public Grid findList();
+    Grid findList();
 
-    public User getUserByName(String name);
+    User getUserByName(String name);
 
+    User getByOpenid(String openid);
 
-    public User getByOpenid(String openid);
-
-    public User getByPhone(String phone);
+    User getByPhone(String phone);
 }

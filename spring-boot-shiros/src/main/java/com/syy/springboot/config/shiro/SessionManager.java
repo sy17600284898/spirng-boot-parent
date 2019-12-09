@@ -1,4 +1,4 @@
-package com.syy.springboot.system.shiro;
+package com.syy.springboot.config.shiro;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.session.Session;
@@ -38,7 +38,6 @@ public class SessionManager extends DefaultWebSessionManager {
             request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID_SOURCE, REFERENCED_SESSION_ID_SOURCE);
             request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID, id);
             request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID_IS_VALID, Boolean.TRUE);
-
             return id;
         } else {
             // 否则按默认规则从cookie取sessionId

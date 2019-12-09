@@ -1,4 +1,4 @@
-package com.syy.springboot.system.shiro;
+package com.syy.springboot.config.shiro;
 
 import com.syy.springboot.util.MD5Util;
 import org.apache.shiro.authc.credential.SimpleCredentialsMatcher;

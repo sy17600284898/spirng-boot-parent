@@ -1,4 +1,4 @@
-package com.syy.springboot.system.shiro;
+package com.syy.springboot.enums;
 
 /**
  * LoginType

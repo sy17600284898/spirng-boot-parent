@@ -2,10 +2,10 @@ package com.syy.springboot.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.syy.springboot.system.enums.ResultStatusCode;
-import com.syy.springboot.system.shiro.LoginType;
-import com.syy.springboot.system.shiro.UserToken;
-import com.syy.springboot.system.vo.Result;
+import com.syy.springboot.enums.ResultStatusCode;
+import com.syy.springboot.enums.LoginType;
+import com.syy.springboot.config.shiro.UserToken;
+import com.syy.springboot.result.Result;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
@@ -36,7 +36,8 @@ public class LoginController {
     /**
      * 手机验证码登录
      * 注：由于是demo演示，此处不添加发送验证码方法；
-     * 正常操作：发送验证码至手机并且将验证码存放在redis中，登录的时候比较用户穿过来的验证码和redis中存放的验证码
+     * 正常操作：发送验证码至手机并且将验证码存放在redis中，
+     * 登录的时候比较用户穿过来的验证码和redis中存放的验证码
      *
      * @param phone
      * @param code

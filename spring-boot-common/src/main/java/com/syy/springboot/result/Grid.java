@@ -1,4 +1,4 @@
-package com.syy.springboot.system.vo;
+package com.syy.springboot.result;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

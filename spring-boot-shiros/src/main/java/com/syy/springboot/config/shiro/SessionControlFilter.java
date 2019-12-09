@@ -1,4 +1,4 @@
-package com.syy.springboot.system.shiro;
+package com.syy.springboot.config.shiro;
 
 import com.alibaba.fastjson.JSON;
 import com.syy.springboot.model.User;

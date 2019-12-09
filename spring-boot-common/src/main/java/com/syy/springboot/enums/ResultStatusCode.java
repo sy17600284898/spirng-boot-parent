@@ -1,4 +1,4 @@
-package com.syy.springboot.system.enums;
+package com.syy.springboot.enums;
 
 /**
  * ResultStatusCode

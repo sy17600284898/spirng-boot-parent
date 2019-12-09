@@ -2,7 +2,7 @@ package com.syy.springboot.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.syy.springboot.system.vo.Grid;
+import com.syy.springboot.result.Grid;
 import com.syy.springboot.mapper.UserMapper;
 import com.syy.springboot.model.User;
 import com.syy.springboot.service.UserService;
@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
+/**
+ * @author ASUS
+ */
 @Service
 public class UserServiceimpl implements UserService {
     @Resource

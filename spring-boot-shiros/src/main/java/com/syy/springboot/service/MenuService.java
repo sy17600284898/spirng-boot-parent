@@ -5,7 +5,16 @@ import com.syy.springboot.model.Menu;
 import java.util.List;
 
 
+/**
+ * @author ASUS
+ */
 public interface MenuService {
 
-     List<Menu> getAllMenuByRoleId(Integer roleId);
+    /**
+     * getAllMenuByRoleId
+     *
+     * @param roleId
+     * @return
+     */
+    List<Menu> getAllMenuByRoleId(Integer roleId);
 }

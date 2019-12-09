@@ -4,7 +4,7 @@ import com.syy.springboot.model.User;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * UserDAO继承基类
+ * UserMapper继承基类
  */
 @Mapper
 public interface UserMapper extends MyBatisBaseMapper<User, Integer> {

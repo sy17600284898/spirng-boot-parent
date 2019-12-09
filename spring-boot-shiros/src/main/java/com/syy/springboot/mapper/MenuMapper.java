@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
 /**
- * MenuDAO继承基类
+ * MenuMapper继承基类
  * @author ASUS
  */
 @Mapper

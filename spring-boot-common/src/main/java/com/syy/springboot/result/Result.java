@@ -1,6 +1,6 @@
-package com.syy.springboot.system.vo;
+package com.syy.springboot.result;
 
-import com.syy.springboot.system.enums.ResultStatusCode;
+import com.syy.springboot.enums.ResultStatusCode;
 
 /**
  * Result

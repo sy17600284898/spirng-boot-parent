@@ -1,41 +1,42 @@
-package com.syy.springboot.system.shiro;
+package com.syy.springboot.config.shiro;
 
+import com.syy.springboot.enums.LoginType;
 import com.syy.springboot.model.User;
 import com.syy.springboot.service.UserService;
+import org.apache.shiro.realm.AuthorizingRealm;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
-import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * WechatLoginRealm
+ * UserPhoneRealm
  *
  * @author: shiyan
- * @version: 2019-12-06 15:55
+ * @version: 2019-12-06 15:53
  * @Copyright: 2019 www.lenovo.com Inc. All rights reserved.
+ * 手机验证码登录realm
  */
 @Slf4j
-public class WechatLoginRealm extends AuthorizingRealm {
-
+public class UserPhoneRealm extends AuthorizingRealm {
     @Autowired
     private UserService userService;
 
     @Override
     public String getName() {
-        return LoginType.WECHAT_LOGIN.getType();
+        return LoginType.USER_PHONE.getType();
     }
 
     @Override
     public boolean supports(AuthenticationToken token) {
         if (token instanceof UserToken) {
-            return ((UserToken) token).getLoginType() == LoginType.WECHAT_LOGIN;
+            return ((UserToken) token).getLoginType() == LoginType.USER_PHONE;
         } else {
             return false;
         }
     }
+
 
     @Override
     public void setAuthorizationCacheName(String authorizationCacheName) {
@@ -56,52 +57,43 @@ public class WechatLoginRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) throws AuthenticationException {
-        log.info("---------------- 微信登录 ----------------------");
+        log.info("---------------- 手机验证码登录 ----------------------");
         UserToken token = (UserToken) authcToken;
-        String code = token.getCode();
+        String phone = token.getUsername();
+        // 手机验证码
+        String validCode = String.valueOf(token.getPassword());
 
-        String openid = getOpenid(code);
-
-        if (StringUtils.isEmpty(openid)) {
-            log.debug("微信授权登录失败，未获得openid");
-            throw new AuthenticationException();
+        // 这里假装从redis中获取了验证码为 123456，并对比密码是否正确
+        if (!"123456".equals(validCode)) {
+            log.debug("验证码错误，手机号为：{}", phone);
+            throw new IncorrectCredentialsException();
         }
-        User user = userService.getByOpenid(openid);
+
+        User user = userService.getByPhone(phone);
         if (user == null) {
-            // TODO 获取微信昵称、头像等信息，并完成注册用户，此处省略
+            throw new UnknownAccountException();
         }
         // 用户为禁用状态
         if (user.getLoginFlag().equals("0")) {
             throw new DisabledAccountException();
         }
-        // 完成登录，此处已经不需要做密码校验
+
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
                 //用户
                 user,
                 //密码
-                code,
+                validCode,
                 //realm name
                 getName()
         );
         return authenticationInfo;
     }
 
-    private String getOpenid(String code) {
-        // 这里假装是一个通过code获取openid的方法，具体实现由各位自己去实现，此处不做扩展
-        if (StringUtils.isNotEmpty(code)) {
-            return "sdfuh81238917jhoijiosdsgsdfljiofds";
-        }
-        return null;
-    }
-
     /**
      * 授权
-     *
-     * @param principals
-     * @return
      */
     @Override
-    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         return null;
     }
 }

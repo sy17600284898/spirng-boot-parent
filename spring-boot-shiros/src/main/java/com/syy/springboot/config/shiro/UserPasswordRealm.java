@@ -1,5 +1,6 @@
-package com.syy.springboot.system.shiro;
+package com.syy.springboot.config.shiro;
 
+import com.syy.springboot.enums.LoginType;
 import com.syy.springboot.model.User;
 import com.syy.springboot.service.UserService;
 import org.apache.shiro.realm.AuthorizingRealm;

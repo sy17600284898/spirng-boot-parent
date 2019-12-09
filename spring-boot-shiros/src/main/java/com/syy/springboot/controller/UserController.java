@@ -1,7 +1,7 @@
 package com.syy.springboot.controller;
 
 import com.syy.springboot.service.UserService;
-import com.syy.springboot.system.vo.Grid;
+import com.syy.springboot.result.Grid;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

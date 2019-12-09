@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
 /**
- * RoleDAO继承基类
+ * RoleMapper继承基类
  */
 @Mapper
 public interface RoleMapper extends MyBatisBaseMapper<Role, Integer> {

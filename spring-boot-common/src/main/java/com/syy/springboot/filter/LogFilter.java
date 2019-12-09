@@ -1,4 +1,4 @@
-package com.syy.springboot.system.filter;
+package com.syy.springboot.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.syy.springboot.util.DateUtils;
