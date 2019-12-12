@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.syy.springboot.enums.ResultStatusCode;
 import com.syy.springboot.enums.LoginType;
-import com.syy.springboot.config.shiro.UserToken;
+import com.syy.springboot.config.UserToken;
 import com.syy.springboot.result.Result;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;

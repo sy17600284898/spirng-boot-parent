@@ -8,7 +8,7 @@
         <groupId>com.spring.boot</groupId>
         <version>1.0.0</version>
     </parent>
-    <artifactId>spring-boot-shrio</artifactId>
+    <artifactId>spring-boot-shiro</artifactId>
     <dependencies>
         <dependency>
             <groupId>com.spring.boot</groupId>

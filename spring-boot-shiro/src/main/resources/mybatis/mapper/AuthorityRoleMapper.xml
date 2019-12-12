@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.syy.springboot.mapper.AuthorityRoleMapper">
+    <resultMap id="BaseResultMap" type="com.syy.springboot.model.AuthorityRole">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="role" jdbcType="VARCHAR" property="role"/>
+        <result column="create_by" jdbcType="INTEGER" property="createBy"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="update_by" jdbcType="INTEGER" property="updateBy"/>
+        <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
+        <result column="del_flag" jdbcType="BIT" property="delFlag"/>
+        <collection property="permissionList" column="id"
+                    ofType="com.syy.springboot.model.AuthorityPermission" javaType="ArrayList">
+            <id column="permissionId" jdbcType="INTEGER" property="id"/>
+            <result column="parent_id" jdbcType="INTEGER" property="parentId"/>
+            <result column="permissionName" jdbcType="VARCHAR" property="name"/>
+            <result column="sort" jdbcType="DECIMAL" property="sort"/>
+            <result column="href" jdbcType="VARCHAR" property="href"/>
+            <result column="icon" jdbcType="VARCHAR" property="icon"/>
+            <result column="available" jdbcType="BIT" property="available"/>
+            <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
+            <result column="permission" jdbcType="VARCHAR" property="permission"/>
+            <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+            <result column="update_by" jdbcType="VARCHAR" property="updateBy"/>
+            <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
+            <result column="del_flag" jdbcType="BIT" property="delFlag"/>
+        </collection>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id,  role, create_by, create_date,update_by, update_date, del_flag
+    </sql>
+    <sql id="baseColumn">
+        a.id,a.role,ap.available,ap.create_by,ap.create_date,ap.del_flag,ap.href,
+        ap.icon,ap.id permissionId,ap.`name`permissionName,
+        ap.parent_id,ap.parent_ids,ap.permission,ap.resource_type,ap.sort,ap.update_by,ap.update_date,
+        a.create_by createBy, a.create_date createDate, a.update_by updateBy, a.update_date updateDate, a.del_flag delFlag
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from authority_role
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="findByUserId" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumn"/>
+        from authority_role a left join authority_user_role b on a.id=b.role_id
+        LEFT JOIN authority_role_permission arp ON arp.role_id = a.id
+        LEFT JOIN authority_permission ap ON ap.id = arp.permission_id
+        where b.user_id=#{userId} AND a.del_flag =0 and ap.del_flag =0
+    </select>
+
+    <select id="count" parameterType="map" resultType="java.lang.Integer">
+        select count(id)
+        from authority_role
+        where 1=1
+        AND del_flag =0
+    </select>
+
+    <select id="selectByExample" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from authority_role
+        where  del_flag =0
+        order by id desc
+        limit #{begin} , #{length}
+    </select>
+
+    <insert id="insertSelective">
+        insert into authority_role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="role != null">
+                role,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            create_date,
+            update_date,
+            del_flag,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="role != null">
+                #{role,jdbcType=VARCHAR},
+            </if>
+
+            <if test="createBy != null">
+                #{createBy,jdbcType=INTEGER},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=INTEGER},
+            </if>
+            now(),
+            now(),
+            0
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective">
+        update authority_role
+        <set>
+
+            <if test="role != null">
+                role = #{roleType,jdbcType=VARCHAR},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=INTEGER},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=INTEGER},
+            </if>
+            update_date=now(),
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

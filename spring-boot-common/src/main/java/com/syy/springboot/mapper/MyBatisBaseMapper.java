@@ -2,6 +2,7 @@ package com.syy.springboot.mapper;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -45,7 +46,7 @@ public interface MyBatisBaseMapper<Model, PK extends Serializable> {
      * @param record
      * @return
      */
-    int insertSelective(Model record);
+    boolean insertSelective(Model record);
 
     /**
      * selectByPrimaryKey
@@ -61,7 +62,7 @@ public interface MyBatisBaseMapper<Model, PK extends Serializable> {
      * @param record
      * @return
      */
-    int updateByPrimaryKeySelective(Model record);
+    boolean updateByPrimaryKeySelective(Model record);
 
     /**
      * updateByPrimaryKey
@@ -70,4 +71,21 @@ public interface MyBatisBaseMapper<Model, PK extends Serializable> {
      * @return
      */
     int updateByPrimaryKey(Model record);
+
+
+    /**
+     * count
+     *
+     * @param map
+     * @return
+     */
+    int count(Map<String, Object> map);
+
+    /**
+     * selectByExample
+     *
+     * @param map
+     * @return
+     */
+    List<Model> selectByExample(Map<String, Object> map);
 }

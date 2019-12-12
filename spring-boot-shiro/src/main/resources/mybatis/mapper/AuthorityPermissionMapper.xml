@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.syy.springboot.mapper.AuthorityPermissionMapper">
+    <resultMap id="BaseResultMap" type="com.syy.springboot.model.AuthorityPermission">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="parent_id" jdbcType="INTEGER" property="parentId"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="sort" jdbcType="DECIMAL" property="sort"/>
+        <result column="href" jdbcType="VARCHAR" property="href"/>
+        <result column="icon" jdbcType="VARCHAR" property="icon"/>
+        <result column="available" jdbcType="BIT" property="available"/>
+        <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
+        <result column="resource_type" jdbcType="VARCHAR" property="resourceType"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="update_by" jdbcType="VARCHAR" property="updateBy"/>
+        <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
+        <result column="del_flag" jdbcType="BIT" property="delFlag"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, parent_id, `name`, sort,resource_type, href, icon,create_by, create_date, update_by,
+        update_date, del_flag,available
+    </sql>
+    <sql id="BaseColumn">
+    a.id, a.parent_id parentId, a.`name`, a.sort, a.href, a.icon, a.resource_type resourceType,
+    a.create_by createBy, a.create_date createDate, a.update_by updateBy,
+    a.update_date updateDate, a.del_flag delFlag
+  </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from authority_permission
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="getAllMenuByRoleId" resultMap="BaseResultMap">
+        select
+        <include refid="BaseColumn"/>
+        from authority_permission a left join authority_role_permission b on a.id=b.menu_id
+        where b.role_id=#{roleId} and a.del_flag=0
+    </select>
+    <select id="findAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from authority_permission where del_flag=0 and available=0
+    </select>
+
+    <insert id="insertSelective">
+        insert into authority_permission
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="parentId != null">
+                parent_id,
+            </if>
+            <if test="name != null">
+                `name`,
+            </if>
+            <if test="sort != null">
+                sort,
+            </if>
+            <if test="href != null">
+                href,
+            </if>
+            <if test="icon != null">
+                icon,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            create_date,
+            update_date,
+            del_flag,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="parentId != null">
+                #{parentId,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                #{sort,jdbcType=DECIMAL},
+            </if>
+            <if test="href != null">
+                #{href,jdbcType=VARCHAR},
+            </if>
+            <if test="icon != null">
+                #{icon,jdbcType=VARCHAR},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=INTEGER},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=INTEGER},
+            </if>
+            now(),
+            now(),
+            0
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective">
+        update authority_permission
+        <set>
+            <if test="parentId != null">
+                parent_id = #{parentId,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                `name` = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                sort = #{sort,jdbcType=DECIMAL},
+            </if>
+            <if test="href != null">
+                href = #{href,jdbcType=VARCHAR},
+            </if>
+            <if test="icon != null">
+                icon = #{icon,jdbcType=VARCHAR},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=INTEGER},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=INTEGER},
+            </if>
+            update_date=now(),
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByid">
+         update authority_permission set
+         del_flag=1
+         where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>
