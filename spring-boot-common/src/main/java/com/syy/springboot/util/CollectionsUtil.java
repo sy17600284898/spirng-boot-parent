@@ -1,7 +1,5 @@
 package com.syy.springboot.util;
 
-import com.syy.springboot.model.User;
-
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -33,6 +31,7 @@ public class CollectionsUtil {
 //                i -> list.get(i)));
         return list;
     }
+
 
 }
 
