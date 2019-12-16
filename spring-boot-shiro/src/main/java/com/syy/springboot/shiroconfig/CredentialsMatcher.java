@@ -1,6 +1,6 @@
 package com.syy.springboot.shiroconfig;
 
-import commercial.admin.common.util.MD5Util;
+import com.syy.springboot.util.MD5Util;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.UsernamePasswordToken;

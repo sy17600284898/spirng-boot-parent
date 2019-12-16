@@ -1,7 +1,7 @@
 package com.syy.springboot.controller;
 
-import com.syy.springboot.enums.ResultStatusCode;
 import com.syy.springboot.result.Result;
+import com.syy.springboot.result.ResultStatusCode;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,6 +1,6 @@
 package com.syy.springboot.mapper;
 
-import commercial.base.db.mysql.commercial.entity.Attachment;
+import com.sun.xml.internal.ws.api.message.Attachment;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

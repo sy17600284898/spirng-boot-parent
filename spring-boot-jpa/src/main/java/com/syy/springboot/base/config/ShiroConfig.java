@@ -98,8 +98,4 @@ public class ShiroConfig {
 		//r.setWarnLogCategory("example.MvcLogger");     // No default
 		return r;
 	}
-
-
-
-
 }

@@ -30,62 +30,62 @@ import java.util.Map;
 @Configuration
 public class ShiroConfig {
 
-    @Value("${redis.host}")
+    @Value("${spring.redis.host}")
     private String redisHost;
 
-    @Value("${redis.port}")
+    @Value("${spring.redis.port}")
     private int redisPort;
 
     @Bean
     public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
-        //自定义拦截器
+        //Custom interceptor
         Map<String, Filter> filtersMap = new LinkedHashMap<>();
-        //限制同一帐号同时在线的个数。
+        //Limit the number of simultaneous online accounts。
         filtersMap.put("kickout", kickoutSessionControlFilter());
         shiroFilterFactoryBean.setFilters(filtersMap);
-        // 权限控制map.
+        // Access control map.
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
-        // 公共请求
+        // Public request
         filterChainDefinitionMap.put("/common/**", "anon");
-        // 登录方法,表示可以匿名访问
+        // Login method, which means anonymous access
         filterChainDefinitionMap.put("/login/**", "anon");
-        //此处需要添加一个kickout，上面添加的自定义拦截器才能生效
+        //You need to add a kickout here for the custom interceptor added above to take effect
         filterChainDefinitionMap.put("/**", "authc,kickout");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
     }
 
     /**
-     * 限制同一账号登录同时登录人数控制
+     * Restrict the number of users who log in to the same account at the same time
      *
      * @return
      */
     @Bean
     public SessionControlFilter kickoutSessionControlFilter() {
         SessionControlFilter kickoutSessionControlFilter = new SessionControlFilter();
-        //使用cacheManager获取相应的cache来缓存用户登录的会话；用于保存用户—会话之间的关系的；
-        //这里我们还是用之前shiro使用的redisManager()实现的cacheManager()缓存管理
-        //也可以重新另写一个，重新配置缓存时间之类的自定义缓存属性
+        //使Use cacheManager to get the corresponding cache to cache user login sessions; used to save the relationship between users and sessions；
+        //Here we still use the cacheManager () cache management implemented by redisManager () used by Shiro
+        //You can also write another one to reconfigure custom cache properties such as cache time.
         kickoutSessionControlFilter.setCache(cacheManager());
-        //用于根据会话ID，获取会话进行踢出操作的
+        //Used to get the session for kick-out operation based on the session ID
         kickoutSessionControlFilter.setSessionManager(sessionManager());
-        //是否踢出后来登录的，默认是false；即后者登录的用户踢出前者登录的用户；踢出顺序
+        //Whether to log out and log in later, the default is false; that is, the latter logged in user kicks out the former logged in user; the kick out order
         kickoutSessionControlFilter.setKickoutAfter(false);
-        //同一个用户最大的会话数，默认1；比如2的意思是同一个用户允许最多同时两个人登录；
+        //The maximum number of sessions for the same user, the default is 1; for example, 2 means that the same user allows up to two people to log in simultaneously
         kickoutSessionControlFilter.setMaxSession(1);
         kickoutSessionControlFilter.setKickoutUrl("/login/logout");
         return kickoutSessionControlFilter;
     }
 
     /**
-     * RedisSessionDAO shiro sessionDao层的实现 通过redis
-     * 使用的是shiro-redis开源插件
+     * RImplementation of edisSessionDAO shiro sessionDao layer via redis
+     * Using shiro-redis open source plugin
      */
     @Bean
-    public RedisSessionDAO redisSessionDAO() {
-        RedisSessionDAO redisSessionDAO = new RedisSessionDAO();
+    public RedisSessionDao redisSessionDAO() {
+        RedisSessionDao redisSessionDAO = new RedisSessionDao();
         redisSessionDAO.setRedisManager(redisManager());
         redisSessionDAO.setKeyPrefix("SPRINGBOOT_SESSION:");
         return redisSessionDAO;
@@ -93,7 +93,7 @@ public class ShiroConfig {
 
     /**
      * Session Manager
-     * 使用的是shiro-redis开源插件
+     * Using shiro-redis open source plugin
      */
     @Bean
     public SessionManager sessionManager() {
@@ -111,9 +111,9 @@ public class ShiroConfig {
     }
 
     /**
-     * 配置shiro redisManager
-     * 使用的是shiro-redis开源插件
-     * 有密码需要添加密码
+     * Configure shiro redisManager
+     * Using shiro-redis open source plugin
+     * Need password to add password
      *
      * @return
      */
@@ -121,21 +121,20 @@ public class ShiroConfig {
         RedisManager redisManager = new RedisManager();
         redisManager.setHost(redisHost);
         redisManager.setPort(redisPort);
-        redisManager.setDatabase(2);
         redisManager.setTimeout(1800);
         return redisManager;
     }
 
     /**
-     * cacheManager 缓存 redis实现
-     * 使用的是shiro-redis开源插件
+     * cacheManager cache redis implementation
+     * Using shiro-redis open source plugin
      *
      * @return
      */
     public RedisCacheManager cacheManager() {
         RedisCacheManager redisCacheManager = new RedisCacheManager();
         redisCacheManager.setRedisManager(redisManager());
-        //设置前缀
+        //Set prefix
         redisCacheManager.setKeyPrefix("SPRINGBOOT_CACHE:");
         return redisCacheManager;
     }
@@ -157,18 +156,18 @@ public class ShiroConfig {
     @Bean
     public SecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-        // 设置realm.
+        // Setting up realm.
         securityManager.setRealm(myShiroRealm());
-        // 自定义缓存实现 使用redis
+        // Custom cache implementation using redis
         securityManager.setCacheManager(cacheManager());
-        // 自定义session管理 使用redis
+        // Custom session management using redis
         securityManager.setSessionManager(sessionManager());
         return securityManager;
     }
 
     /**
-     * 开启shiro aop注解支持.
-     * 使用代理方式;所以需要开启代码支持;
+     * Enable shiro aop annotation support.
+     * Use proxy mode; so need to enable code support;
      *
      * @param securityManager
      * @return
@@ -181,8 +180,8 @@ public class ShiroConfig {
     }
 
     /**
-     * Shiro生命周期处理器
-     * 此方法需要用static作为修饰词，否则无法通过@Value()注解的方式获取配置文件的值
+     * Shiro Lifecycle Processor
+     * This method needs to use static as a modifier, otherwise the value of the configuration file cannot be obtained through the @Value () annotation.
      */
     @Bean
     public static LifecycleBeanPostProcessor getLifecycleBeanPostProcessor() {
@@ -190,7 +189,7 @@ public class ShiroConfig {
     }
 
     /***
-     * 授权所用配置
+     * Configuration used for authorization
      *
      * @return
      */
@@ -202,12 +201,12 @@ public class ShiroConfig {
     }
 
     /**
-     * 自定义的Realm管理,主要针对多realm
+     * Custom Realm management, mainly for multiple realm
      */
     @Bean("myModularRealmAuthenticator")
     public MyModularRealmAuthenticator modularRealmAuthenticator() {
         MyModularRealmAuthenticator customizedModularRealmAuthenticator = new MyModularRealmAuthenticator();
-        // 设置realm判断条件
+        // Set realm judgment conditions
         customizedModularRealmAuthenticator.setAuthenticationStrategy(new AtLeastOneSuccessfulStrategy());
         return customizedModularRealmAuthenticator;
     }

@@ -1,6 +1,6 @@
 package com.syy.springboot.shiroconfig;
 
-import commercial.admin.common.enums.LoginType;
+import com.syy.springboot.enums.LoginType;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;

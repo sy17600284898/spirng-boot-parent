@@ -2,10 +2,10 @@ package com.syy.springboot.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.syy.springboot.enums.ResultStatusCode;
 import com.syy.springboot.enums.LoginType;
-import com.syy.springboot.config.UserToken;
 import com.syy.springboot.result.Result;
+import com.syy.springboot.result.ResultStatusCode;
+import com.syy.springboot.shiroconfig.UserToken;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
@@ -61,7 +61,7 @@ public class LoginController {
     @RequestMapping("wechatLogin")
     public Result wechatLogin(String code) {
         // 此处假装code分别是username、password
-        UserToken token = new UserToken(LoginType.WECHAT_LOGIN, code, code, code);
+        UserToken token = new UserToken(LoginType.WECHAT_LOGIN, code, code);
         return shiroLogin(token);
     }
 
@@ -83,7 +83,7 @@ public class LoginController {
             e.printStackTrace();
             return new Result(ResultStatusCode.NOT_EXIST_USER_OR_ERROR_PWD);
         } catch (LockedAccountException e) {
-            return new Result(ResultStatusCode.USER_FROZEN);
+            return new Result(ResultStatusCode.SYSTEM_ERR);
         } catch (Exception e) {
             return new Result(ResultStatusCode.SYSTEM_ERR);
         }

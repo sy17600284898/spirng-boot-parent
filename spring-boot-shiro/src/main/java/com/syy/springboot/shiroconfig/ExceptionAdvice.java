@@ -1,8 +1,9 @@
 package com.syy.springboot.shiroconfig;
 
-import commercial.base.common.models.base.BaseResponse;
-import commercial.base.common.util.LogUtils;
-import commercial.base.common.util.ResultStatusCode;
+import com.mchange.v2.log.LogUtils;
+import com.syy.springboot.result.BaseResponse;
+import com.syy.springboot.result.ResultStatusCode;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -27,6 +28,7 @@ import javax.validation.ConstraintViolationException;
  */
 @ControllerAdvice
 @ResponseBody
+@Slf4j
 public class ExceptionAdvice {
     /**
      * 400 - Bad Request
@@ -38,7 +40,7 @@ public class ExceptionAdvice {
     @ExceptionHandler({HttpMessageNotReadableException.class, MissingServletRequestParameterException.class, BindException.class,
             ServletRequestBindingException.class, MethodArgumentNotValidException.class, ConstraintViolationException.class})
     public BaseResponse<Object> handleHttpMessageNotReadableException(Exception e) {
-        LogUtils.error("Parameter parsing failed", e);
+        log.error("Parameter parsing failed", e);
         if (e instanceof BindException) {
             return new BaseResponse(ResultStatusCode.BAD_REQUEST.getCode(),
                     ((BindException) e).getAllErrors().get(0).getDefaultMessage());
@@ -55,7 +57,7 @@ public class ExceptionAdvice {
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public BaseResponse<Object> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
-        LogUtils.error("Does not support the current request method", e);
+        log.error("Does not support the current request method", e);
         return new BaseResponse(false, ResultStatusCode.METHOD_NOT_ALLOWED, null);
     }
 
@@ -67,7 +69,7 @@ public class ExceptionAdvice {
      */
     @ExceptionHandler(UnauthorizedException.class)
     public BaseResponse<Object> unauthorizedException(UnauthorizedException e) {
-        LogUtils.error(e.getMessage(), e);
+        log.error(e.getMessage(), e);
         return new BaseResponse(false, ResultStatusCode.UNAUTHO_ERROR, null);
     }
 
@@ -81,7 +83,7 @@ public class ExceptionAdvice {
     @ExceptionHandler(Exception.class)
     public BaseResponse<Object> handleException(Exception e) {
         e.printStackTrace();
-        LogUtils.error("Service is running abnormally", e);
+        log.error("Service is running abnormally", e);
         return new BaseResponse(false, ResultStatusCode.SYSTEM_ERR, null);
     }
 }

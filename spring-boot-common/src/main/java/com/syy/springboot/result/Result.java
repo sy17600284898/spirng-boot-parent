@@ -1,6 +1,5 @@
 package com.syy.springboot.result;
 
-import com.syy.springboot.enums.ResultStatusCode;
 
 /**
  * Result
