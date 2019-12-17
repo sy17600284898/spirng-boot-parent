@@ -10,7 +10,6 @@ import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
 import org.crazycake.shiro.RedisCacheManager;
 import org.crazycake.shiro.RedisManager;
-import org.crazycake.shiro.RedisSessionDAO;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -65,7 +64,7 @@ public class ShiroConfig {
     @Bean
     public SessionControlFilter kickoutSessionControlFilter() {
         SessionControlFilter kickoutSessionControlFilter = new SessionControlFilter();
-        //使Use cacheManager to get the corresponding cache to cache user login sessions; used to save the relationship between users and sessions；
+        //Use cacheManager to get the corresponding cache to cache user login sessions; used to save the relationship between users and sessions；
         //Here we still use the cacheManager () cache management implemented by redisManager () used by Shiro
         //You can also write another one to reconfigure custom cache properties such as cache time.
         kickoutSessionControlFilter.setCache(cacheManager());

@@ -1,6 +1,5 @@
 package com.syy.springboot.shiroconfig;
 
-import com.syy.springboot.util.RedisUtil;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
 import org.apache.shiro.util.CollectionUtils;
@@ -83,6 +82,4 @@ public class RedisSessionDao extends RedisSessionDAO {
         }
         return sessions;
     }
-
-
 }

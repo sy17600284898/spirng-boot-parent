@@ -51,10 +51,10 @@ public class ShiroRealm extends AuthorizingRealm {
             return null;
         }
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
-                userInfo, //用户名
-                userInfo.getPassword(), //密码
-                ByteSource.Util.bytes(userInfo.getCredentialsSalt()),//salt=username+salt
-                getName()  //realm name
+                userInfo,
+                userInfo.getPassword(),
+                ByteSource.Util.bytes(userInfo.getCredentialsSalt()),
+                getName()
         );
         return authenticationInfo;
     }
