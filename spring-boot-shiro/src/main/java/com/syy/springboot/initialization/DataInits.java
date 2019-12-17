@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Order(1)
-public class DataInit {
+public class DataInits {
 
     /**
      * userInit
@@ -21,7 +21,7 @@ public class DataInit {
      * @return
      */
     @Bean
-    UserInit userInit() {
-        return new UserInit();
+    UserInits userInit() {
+        return new UserInits();
     }
 }

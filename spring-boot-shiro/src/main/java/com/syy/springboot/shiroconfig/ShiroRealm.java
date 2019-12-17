@@ -1,6 +1,6 @@
 package com.syy.springboot.shiroconfig;
 
-import com.syy.springboot.initialization.UserInit;
+import com.syy.springboot.initialization.UserInits;
 import com.syy.springboot.model.AuthorityPermission;
 import com.syy.springboot.model.AuthorityRole;
 import com.syy.springboot.model.AuthorityUser;
@@ -96,7 +96,7 @@ public class ShiroRealm extends AuthorizingRealm {
                 sessionManager.getSessionDAO().delete(session);
             }
         }
-        AuthorityUser user = UserInit.getDataMap(name);
+        AuthorityUser user = UserInits.getDataMap(name);
         if (Objects.isNull(user)) {
             return null;
         }

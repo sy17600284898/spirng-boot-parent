@@ -39,6 +39,21 @@
         from authority_permission a left join authority_role_permission b on a.id=b.menu_id
         where b.role_id=#{roleId} and a.del_flag=0
     </select>
+    <select id="count" parameterType="map" resultType="java.lang.Integer">
+        select count(id)
+        from authority_permission
+        where 1=1
+        AND del_flag =0
+    </select>
+
+    <select id="selectByExample" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from authority_permission
+        where  del_flag =0
+        order by id desc
+        limit #{begin} , #{length}
+    </select>
     <select id="findAll" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>

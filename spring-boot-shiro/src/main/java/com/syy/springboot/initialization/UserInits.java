@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
  * @version: 2019-12-10 17:43
  * @Copyright: 2019 www.lenovo.com Inc. All rights reserved.
  */
-public class UserInit {
+public class UserInits {
     /**
      * 静态map对象
      */
