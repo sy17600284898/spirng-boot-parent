@@ -3,7 +3,7 @@
 
     <contextName>logback-demo</contextName>
 
-    <property name="logback.logdir" value="D:/MSU/spring-boot-parent/log"/>
+    <property name="logback.logdir" value="D:/JMS/spring-boot-parent/log"/>
     <property name="logback.appname" value="springboot"/>
 
     <!-- 彩色日志 -->
