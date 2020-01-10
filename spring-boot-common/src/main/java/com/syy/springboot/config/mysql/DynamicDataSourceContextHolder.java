@@ -14,7 +14,7 @@ public class DynamicDataSourceContextHolder {
     /**
      * 存放当前线程使用的数据源类型信息
      */
-    private static final ThreadLocal<String> contextHolder = new ThreadLocal<>();
+    private static final ThreadLocal<String> CONTEXTHOLDER = new ThreadLocal<>();
     /**
      * 存放数据源id
      */
@@ -26,7 +26,7 @@ public class DynamicDataSourceContextHolder {
      * @param dataSourceType
      */
     public static void setDataSourceType(String dataSourceType) {
-        contextHolder.set(dataSourceType);
+        CONTEXTHOLDER.set(dataSourceType);
     }
 
     /**
@@ -35,14 +35,14 @@ public class DynamicDataSourceContextHolder {
      * @return
      */
     public static String getDataSourceType() {
-        return contextHolder.get();
+        return CONTEXTHOLDER.get();
     }
 
     /**
      * 清除数据源
      */
     public static void clearDataSourceType() {
-        contextHolder.remove();
+        CONTEXTHOLDER.remove();
     }
 
     /**

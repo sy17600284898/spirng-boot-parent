@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -52,7 +53,7 @@ public class UserInfoController extends BaseController {
      * @param username
      * @return
      */
-    @RequestMapping(value = "/userList", method = RequestMethod.POST)
+    @PostMapping(value = "/userList")
     @ResponseBody
     @RequiresPermissions("userInfo:view")//权限管理;
     public ModelMap getList(DataTablesParam dataTablesParam, String username) {

@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -53,7 +54,7 @@ public class SysRoleController extends BaseController {
      * @param dataTablesParam
      * @return
      */
-    @RequestMapping(value="/roleList",method = RequestMethod.POST)
+    @PostMapping(value="/roleList")
     @ResponseBody
     //@RequiresPermissions("userInfo:view")//权限管理;
     public ModelMap getList(DataTablesParam dataTablesParam, String role){
@@ -182,7 +183,7 @@ public class SysRoleController extends BaseController {
      * 通过uid查询角色信息
      * @return
      */
-    @RequestMapping(value="/findBypermission",method = RequestMethod.POST)
+    @PostMapping(value="/findBypermission" )
     @ResponseBody
     public ModelMap findBypermission(String id){
     	logger.info("查询角色拥有资源："+id);
@@ -204,7 +205,7 @@ public class SysRoleController extends BaseController {
      * 保存角色权限资源
      * @return
      */
-    @RequestMapping(value="/savePermissionId",method = RequestMethod.POST)
+    @PostMapping(value="/savePermissionId")
     @ResponseBody
     public ModelMap savePermissionId(String id,String str){
     	logger.info("保存角色资源："+str);
@@ -232,7 +233,7 @@ public class SysRoleController extends BaseController {
 	 * 通过id查询角色是否可以查询所有
 	 * @return
 	 */
-	@RequestMapping(value="/getAllData",method = RequestMethod.POST)
+	@PostMapping(value="/getAllData")
 	@ResponseBody
 	@RequiresPermissions("roleInfo:getAllData")//权限管理;
 	public ModelMap getAllData(String id){

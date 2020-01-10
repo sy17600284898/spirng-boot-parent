@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -35,7 +33,7 @@ public class UserController extends BaseController {
      * @return: org.springframework.ui.ModelMap
      * @Description: 用户保存&更新
      */
-    @RequestMapping(value="/add", method = RequestMethod.POST)
+    @PostMapping(value="/add")
     @ResponseBody
     public ModelMap add(User user){
         try {
@@ -60,7 +58,7 @@ public class UserController extends BaseController {
      * @return: org.springframework.ui.ModelMap
      * @Description: 删除用户
      */
-    @RequestMapping(value="/delete", method = RequestMethod.GET)
+    @GetMapping(value="/delete")
     @ResponseBody
     public ModelMap delete(String id){
         try {

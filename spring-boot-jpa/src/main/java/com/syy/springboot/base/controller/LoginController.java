@@ -9,6 +9,7 @@ import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -30,7 +31,7 @@ public class LoginController extends BaseController {
      *
      * @param response
      */
-    @RequestMapping(value = "getGifCode", method = RequestMethod.GET)
+    @GetMapping(value = "getGifCode")
     public void getGifCode(HttpServletResponse response, HttpServletRequest request) {
         try {
             response.setHeader("Pragma", "No-cache");
