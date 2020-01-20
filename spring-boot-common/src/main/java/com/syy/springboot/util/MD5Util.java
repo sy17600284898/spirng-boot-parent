@@ -1,6 +1,9 @@
 package com.syy.springboot.util;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.util.Base64;
 
 /**
  * MD5Util
@@ -33,8 +36,18 @@ public class MD5Util {
         return encrypt(encryptStr).substring(8, 24);
     }
 
-    public static void main(String[] args) {
-        String s = encrypt("666666");
-        System.out.println(s);
+    public static void main(String[] args) throws UnsupportedEncodingException {
+        String str = "hello Base64按时大大爱仕达啊实打实大的sadsad阿萨德阿达大打奥德赛 啊啊\n" +
+                "ADCDEFG";
+        //编码加密
+        String encodeStr = Base64.getEncoder().encodeToString(str.getBytes("UTF-8"));
+        System.out.println("加密后的字符串为:" + encodeStr);
+
+        //解码解密
+        String decoderStr = new String(Base64.getDecoder().decode(encodeStr), StandardCharsets.UTF_8); //
+        // 推荐使用StandardCharsets类指定
+        System.out.println("解密后的字符串为" + decoderStr);
+//        String s = encrypt("666666");
+//        System.out.println(s);
     }
 }
